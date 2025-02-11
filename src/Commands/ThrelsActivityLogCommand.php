@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Threls\ThrelsActivityLog\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class ThrelsActivityLogCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'activity-log';
 
     public $description = 'My command';
 
