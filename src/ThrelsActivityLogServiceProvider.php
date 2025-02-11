@@ -22,7 +22,7 @@ class ThrelsActivityLogServiceProvider extends PackageServiceProvider
             // ->hasViews()
             ->hasMigration('create_activity_log_table')
             ->hasCommand(ThrelsActivityLogCommand::class)
-            ->hasRoute('api.php');
+            ->hasRoute('api');
     }
 
     public function register()
