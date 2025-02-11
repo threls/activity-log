@@ -32,9 +32,9 @@ class ThrelsActivityLogServiceProvider extends PackageServiceProvider
         $this->app->register(ThrelsActivityLogEventServiceProvider::class);
     }
 
-   public function boot()
-   {
-       parent::boot();
-       $this->loadRoutesFrom(__DIR__.'/../src/routes/api.php');
-   }
+    public function boot()
+    {
+        parent::boot();
+        $this->loadRoutesFrom(__DIR__.'/../src/routes/api.php');
+    }
 }
