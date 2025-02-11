@@ -4,7 +4,6 @@ namespace Threls\ThrelsActivityLog\Data;
 
 class ActivityLogData
 {
-
     public function __construct(
         public readonly string $user_id,
         public readonly string $table_name,
@@ -15,8 +14,7 @@ class ActivityLogData
         public readonly string $platform,
         public readonly string $ip,
 
-    )
-    {}
+    ) {}
 
     public static function fromArray(array $attributes): self
     {
@@ -45,6 +43,4 @@ class ActivityLogData
             'ip' => $this->ip,
         ];
     }
-
-
 }

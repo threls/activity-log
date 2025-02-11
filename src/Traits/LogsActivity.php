@@ -13,12 +13,7 @@ use Threls\ThrelsActivityLog\Events\ModelUpdatedEvent;
 
 trait LogsActivity
 {
-
-    /**
-     * @param Model $model
-     * @param ActivityLogTypeEnum $logType
-     */
-    static function createLogObject(Model $model, ActivityLogTypeEnum $logType): ?ActivityLogData
+    public static function createLogObject(Model $model, ActivityLogTypeEnum $logType): ?ActivityLogData
     {
         $data = match ($logType) {
             ActivityLogTypeEnum::CREATE => new ModelLogData(oldContent: null, newContent: $model->toArray()),
@@ -28,49 +23,46 @@ trait LogsActivity
 
         $tableName = $model->getTable();
         $userId = auth()->id();
-        $agent = new Agent();
+        $agent = new Agent;
         $userAgent = request()->userAgent();
 
         return ActivityLogData::fromArray([
-            'user_id'    => $userId,
+            'user_id' => $userId,
             'table_name' => $tableName,
-            'type'   => $logType,
-            'data'       => $data,
+            'type' => $logType,
+            'data' => $data,
             'dirty_keys' => $model->getChanges(),
             'browser_name' => $agent->browser($userAgent),
             'platform' => $agent->platform($userAgent),
             'device' => $agent->device($userAgent),
-            'ip' => request()->ip()
+            'ip' => request()->ip(),
         ]);
     }
 
     protected static function checkLoggingIsEnabled()
     {
-       return config('activity-log.enabled',true);
+        return config('activity-log.enabled', true);
     }
 
     public static function bootLogsActivity()
     {
-        if (! self::checkLoggingIsEnabled())
-        {
+        if (! self::checkLoggingIsEnabled()) {
             return;
         }
 
         if (config('activity-log.log_events.on_update', false)) {
             self::updated(function ($model) {
                 $object = self::createLogObject($model, ActivityLogTypeEnum::CREATE);
-               event(new ModelUpdatedEvent($object,$model));
+                event(new ModelUpdatedEvent($object, $model));
             });
         }
-
 
         if (config('activity-log.log_events.on_delete', false)) {
             self::deleted(function ($model) {
                 $object = self::createLogObject($model, ActivityLogTypeEnum::CREATE);
-                event(new ModelDeletedEvent($object,$model));
+                event(new ModelDeletedEvent($object, $model));
             });
         }
-
 
         if (config('activity-log.log_events.on_create', false)) {
             self::created(function ($model) {
@@ -79,5 +71,4 @@ trait LogsActivity
             });
         }
     }
-
 }

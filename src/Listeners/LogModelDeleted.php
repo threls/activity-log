@@ -12,9 +12,8 @@ use Threls\ThrelsActivityLog\Events\ModelCreatedEvent;
 class LogModelDeleted implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable;
-    public function __construct()
-    {
-    }
+
+    public function __construct() {}
 
     public function handle(ModelCreatedEvent $event): void
     {

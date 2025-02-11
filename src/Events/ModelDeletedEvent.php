@@ -10,8 +10,5 @@ class ModelDeletedEvent
 {
     use Dispatchable;
 
-    public function __construct(public readonly ActivityLogData $activityLogData, public readonly Model $model)
-    {
-    }
+    public function __construct(public readonly ActivityLogData $activityLogData, public readonly Model $model) {}
 }
-
