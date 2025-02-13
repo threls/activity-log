@@ -12,6 +12,8 @@ return [
         'on_login' => true,
     ],
 
+    'user_model' => '\App\Models\User',
+
     'log_pagination' => 20,
 
     'api_route_middleware' => 'auth:sanctum',

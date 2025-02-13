@@ -9,6 +9,6 @@ class ActivityLogController
     public function __invoke()
     {
         return response()
-            ->json(ActivityLog::paginate(config('activity-log.log_pagination', 20)));
+            ->json(ActivityLog::with('user')->paginate(config('activity-log.log_pagination', 20)));
     }
 }

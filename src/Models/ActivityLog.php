@@ -21,7 +21,7 @@ class ActivityLog extends Model
     public function __construct()
     {
         parent::__construct();
-        $userInstance = config('user-activity.model.user');
+        $userInstance = config('activity-log.user_model');
         if (! empty($userInstance)) {
             $this->userInstance = $userInstance;
         }
