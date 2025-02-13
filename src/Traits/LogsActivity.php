@@ -29,7 +29,7 @@ trait LogsActivity
         return ActivityLogData::fromArray([
             'user_id' => $userId,
             'table_name' => $tableName,
-            'type' => $logType,
+            'type' => $logType->value,
             'data' => $data,
             'dirty_keys' => $model->getChanges(),
             'browser_name' => $agent->browser($userAgent),
