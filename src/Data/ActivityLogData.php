@@ -2,6 +2,8 @@
 
 namespace Threls\ThrelsActivityLog\Data;
 
+use Carbon\Carbon;
+
 class ActivityLogData
 {
     public function __construct(
@@ -13,6 +15,7 @@ class ActivityLogData
         public readonly string $browser_name,
         public readonly string $platform,
         public readonly string $ip,
+        public Carbon $log_date
 
     ) {}
 
@@ -26,7 +29,8 @@ class ActivityLogData
             $attributes['dirty_keys'],
             $attributes['browser_name'],
             $attributes['platform'],
-            $attributes['ip']
+            $attributes['ip'],
+            Carbon::parse($attributes['log_date']),
         );
     }
 
@@ -41,6 +45,7 @@ class ActivityLogData
             'browser_name' => $this->browser_name,
             'platform' => $this->platform,
             'ip' => $this->ip,
+            'log_date' => $this->log_date->toDateTimeString(),
         ];
     }
 }

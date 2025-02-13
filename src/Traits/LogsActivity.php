@@ -36,6 +36,7 @@ trait LogsActivity
             'platform' => $agent->platform($userAgent),
             'device' => $agent->device($userAgent),
             'ip' => request()->ip(),
+            'log_date' => now(),
         ]);
     }
 
