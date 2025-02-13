@@ -67,7 +67,7 @@ trait LogsActivity
 
         if (config('activity-log.log_events.on_create', false)) {
             self::created(function ($model) {
-                $object = self::createLogObject($model, null,ActivityLogTypeEnum::CREATE);
+                $object = self::createLogObject($model, null, ActivityLogTypeEnum::CREATE);
                 event(new ModelCreatedEvent($object, $model));
             });
         }

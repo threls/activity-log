@@ -7,7 +7,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Threls\ThrelsActivityLog\Actions\CreateActivityLogAction;
-use Threls\ThrelsActivityLog\Events\ModelCreatedEvent;
 use Threls\ThrelsActivityLog\Events\ModelDeletedEvent;
 
 class LogModelDeleted implements ShouldQueue
