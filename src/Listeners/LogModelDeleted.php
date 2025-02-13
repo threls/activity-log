@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Threls\ThrelsActivityLog\Actions\CreateActivityLogAction;
 use Threls\ThrelsActivityLog\Events\ModelCreatedEvent;
+use Threls\ThrelsActivityLog\Events\ModelDeletedEvent;
 
 class LogModelDeleted implements ShouldQueue
 {
@@ -15,7 +16,7 @@ class LogModelDeleted implements ShouldQueue
 
     public function __construct() {}
 
-    public function handle(ModelCreatedEvent $event): void
+    public function handle(ModelDeletedEvent $event): void
     {
         app(CreateActivityLogAction::class)->execute($event->activityLogData);
     }

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Threls\ThrelsActivityLog\Actions\CreateActivityLogAction;
 use Threls\ThrelsActivityLog\Events\ModelCreatedEvent;
+use Threls\ThrelsActivityLog\Events\ModelUpdatedEvent;
 
 class LogModelUpdated implements ShouldQueue
 {
@@ -15,7 +16,7 @@ class LogModelUpdated implements ShouldQueue
 
     public function __construct() {}
 
-    public function handle(ModelCreatedEvent $event): void
+    public function handle(ModelUpdatedEvent $event): void
     {
         app(CreateActivityLogAction::class)->execute($event->activityLogData);
     }
