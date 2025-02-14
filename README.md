@@ -40,26 +40,23 @@ This is the contents of the published config file:
 
 ```php
 return [
+
+    'enabled' => env('ACTIVITY_LOG_ENABLED', true),
+
+    'log_events' => [
+        'on_create' => true,
+        'on_update' => true,
+        'on_delete' => true,
+        'on_login' => true,
+    ],
+
+    'user_model' => '\App\Models\User',
+
+    'log_pagination' => 20,
+
+    'api_route_middleware' => 'auth:sanctum',
+
 ];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="activity-log-views"
-```
-
-## Usage
-
-```php
-$threlsActivityLog = new Threls\ThrelsActivityLog();
-echo $threlsActivityLog->echoPhrase('Hello, Threls!');
-```
-
-## Testing
-
-```bash
-composer test
 ```
 
 ## Changelog
