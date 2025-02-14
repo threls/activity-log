@@ -7,7 +7,7 @@ use Carbon\Carbon;
 class ActivityLogData
 {
     public function __construct(
-        public readonly string $user_id,
+        public readonly ?string $user_id,
         public readonly string $table_name,
         public readonly string $type,
         public readonly ModelLogData $data,
