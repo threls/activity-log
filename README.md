@@ -59,6 +59,18 @@ return [
 ];
 ```
 
+## Usage
+
+Use trait `LogsActivity` on every model you want to log crud events.
+
+```
+class User extends Authenticatable
+{
+    use LogsActivity;
+
+}
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
