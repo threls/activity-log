@@ -71,6 +71,18 @@ class User extends Authenticatable
 }
 ```
 
+# Clear logs
+
+```
+ php artisan activity-log:delete
+```
+
+# Built in API to get logs list
+
+```
+GET /threls-activity-log/logs
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.

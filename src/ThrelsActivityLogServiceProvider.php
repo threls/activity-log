@@ -4,7 +4,7 @@ namespace Threls\ThrelsActivityLog;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Threls\ThrelsActivityLog\Commands\ThrelsActivityLogCommand;
+use Threls\ThrelsActivityLog\Commands\ThrelsDeleteActivityLogCommand;
 use Threls\ThrelsActivityLog\Providers\ThrelsActivityLogEventServiceProvider;
 
 class ThrelsActivityLogServiceProvider extends PackageServiceProvider
@@ -19,9 +19,8 @@ class ThrelsActivityLogServiceProvider extends PackageServiceProvider
         $package
             ->name('activity-log')
             ->hasConfigFile()
-            // ->hasViews()
             ->hasMigration('create_activity_log_table')
-            ->hasCommand(ThrelsActivityLogCommand::class)
+            ->hasCommand(ThrelsDeleteActivityLogCommand::class)
             ->hasRoute('api');
     }
 
