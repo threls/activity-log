@@ -16,7 +16,7 @@ class ThrelsDeleteActivityLogCommand extends Command
         $olderThanMonths = $this->option('older-than-months');
         ActivityLog::query()
             ->when($olderThanMonths, function ($query) use ($olderThanMonths) {
-                $query->where('created_at', '<=', now()->subMonths($olderThanMonths));
+                $query->where('created_at', '<=', now()->subMonths((int)$olderThanMonths));
             })
             ->delete();
 
