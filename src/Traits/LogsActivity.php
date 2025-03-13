@@ -3,6 +3,7 @@
 namespace Threls\ThrelsActivityLog\Traits;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Jenssegers\Agent\Agent;
 use Threls\ThrelsActivityLog\Data\ActivityLogData;
 use Threls\ThrelsActivityLog\Data\ModelLogData;
@@ -10,6 +11,7 @@ use Threls\ThrelsActivityLog\Enums\ActivityLogTypeEnum;
 use Threls\ThrelsActivityLog\Events\ModelCreatedEvent;
 use Threls\ThrelsActivityLog\Events\ModelDeletedEvent;
 use Threls\ThrelsActivityLog\Events\ModelUpdatedEvent;
+use Threls\ThrelsActivityLog\Models\ActivityLog;
 
 trait LogsActivity
 {
@@ -73,5 +75,10 @@ trait LogsActivity
                 event(new ModelCreatedEvent($object, $model));
             });
         }
+    }
+
+    public function activityLogs(): HasMany
+    {
+        return $this->hasMany(ActivityLog::class, 'model_id', 'id')->where(['model_type' => get_class($this)]);
     }
 }
