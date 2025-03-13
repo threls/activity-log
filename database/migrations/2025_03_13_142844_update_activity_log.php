@@ -6,11 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
         Schema::table('activity_log', function (Blueprint $table) {
             $table->bigInteger('model_id')->unsigned()->nullable()->after('user_id');
             $table->bigInteger('model_type')->unsigned()->nullable()->after('model_id');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('activity_log', function (Blueprint $table) {
+            $table->dropColumn('model_id');
+            $table->dropColumn('model_type');
         });
     }
 };
