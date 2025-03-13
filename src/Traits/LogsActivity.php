@@ -28,6 +28,8 @@ trait LogsActivity
 
         return ActivityLogData::fromArray([
             'user_id' => $userId,
+            'model_id' => $model->id,
+            'model_type' => get_class($model),
             'table_name' => $tableName,
             'type' => $logType->value,
             'data' => $data,

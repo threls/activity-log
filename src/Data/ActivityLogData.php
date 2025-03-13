@@ -8,6 +8,8 @@ class ActivityLogData
 {
     public function __construct(
         public readonly ?string $user_id,
+        public readonly ?string $model_id,
+        public readonly ?string $model_type,
         public readonly string $table_name,
         public readonly string $type,
         public readonly ModelLogData $data,
@@ -23,6 +25,8 @@ class ActivityLogData
     {
         return new self(
             $attributes['user_id'],
+            $attributes['model_id'],
+            $attributes['model_type'],
             $attributes['table_name'],
             $attributes['type'],
             $attributes['data'],
@@ -38,6 +42,8 @@ class ActivityLogData
     {
         return [
             'user_id' => $this->user_id,
+            'model_id' => $this->model_id,
+            'model_type' => $this->model_type,
             'table_name' => $this->table_name,
             'type' => $this->type,
             'data' => $this->data,
