@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::table('activity_log', function (Blueprint $table) {
             $table->bigInteger('model_id')->unsigned()->nullable()->after('user_id');
-            $table->bigInteger('model_type')->unsigned()->nullable()->after('model_id');
+            $table->string('model_type')->nullable()->after('model_id');
         });
     }
 };
