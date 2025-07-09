@@ -51,13 +51,13 @@ trait LogsActivity
 
     public static function bootLogsActivity(): void
     {
-        if (!self::checkLoggingIsEnabled()) {
+        if (! self::checkLoggingIsEnabled()) {
             return;
         }
 
         if (config('activity-log.log_events.on_update', false)) {
             self::saved(function ($model) {
-                if (!$model->wasRecentlyCreated) {
+                if (! $model->wasRecentlyCreated) {
                     $object = self::createLogObject($model, $model->getRawOriginal(), ActivityLogTypeEnum::UPDATE);
                     event(new ModelUpdatedEvent($object, $model));
                 }
