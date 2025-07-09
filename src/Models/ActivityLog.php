@@ -4,6 +4,7 @@ namespace Threls\ThrelsActivityLog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class ActivityLog extends Model
 {
@@ -30,5 +31,10 @@ class ActivityLog extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo($this->userInstance);
+    }
+
+    public function model(): MorphTo
+    {
+        return $this->morphTo();
     }
 }
