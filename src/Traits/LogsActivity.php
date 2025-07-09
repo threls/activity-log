@@ -49,16 +49,18 @@ trait LogsActivity
         return config('activity-log.enabled', true);
     }
 
-    public static function bootLogsActivity()
+    public static function bootLogsActivity(): void
     {
         if (! self::checkLoggingIsEnabled()) {
             return;
         }
 
         if (config('activity-log.log_events.on_update', false)) {
-            self::updated(function ($model) {
-                $object = self::createLogObject($model, $model->getRawOriginal(), ActivityLogTypeEnum::UPDATE);
-                event(new ModelUpdatedEvent($object, $model));
+            self::saved(function ($model) {
+                if (! $model->wasRecentlyCreated) {
+                    $object = self::createLogObject($model, $model->getRawOriginal(), ActivityLogTypeEnum::UPDATE);
+                    event(new ModelUpdatedEvent($object, $model));
+                }
             });
         }
 
