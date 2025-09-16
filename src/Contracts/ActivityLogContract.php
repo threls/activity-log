@@ -2,7 +2,7 @@
 
 namespace Threls\ThrelsActivityLog\Contracts;
 
-interface HasActivityLogDisplayName
+interface ActivityLogContract
 {
     public function getActivityLogDisplayName(): string;
 }

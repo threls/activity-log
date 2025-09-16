@@ -5,7 +5,6 @@ namespace Threls\ThrelsActivityLog\Traits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Jenssegers\Agent\Agent;
-use Threls\ThrelsActivityLog\Contracts\HasActivityLogDisplayName;
 use Threls\ThrelsActivityLog\Data\ActivityLogData;
 use Threls\ThrelsActivityLog\Data\ModelLogData;
 use Threls\ThrelsActivityLog\Enums\ActivityLogTypeEnum;
@@ -14,9 +13,6 @@ use Threls\ThrelsActivityLog\Events\ModelDeletedEvent;
 use Threls\ThrelsActivityLog\Events\ModelUpdatedEvent;
 use Threls\ThrelsActivityLog\Models\ActivityLog;
 
-/**
- * @see HasActivityLogDisplayName
- */
 trait LogsActivity
 {
     public static function createLogObject(Model $model, ?array $oldData, ActivityLogTypeEnum $logType): ?ActivityLogData
