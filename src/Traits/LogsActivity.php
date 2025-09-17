@@ -28,12 +28,24 @@ trait LogsActivity
         $agent = new Agent;
         $userAgent = request()->userAgent();
 
+        $description = null;
+        if (method_exists($model, 'getActivityLogDescription')) {
+            $description = $model->getActivityLogDescription();
+        }
+
+        if ($description === null) {
+            $modelName = class_basename($model);
+            $action = $logType->value;
+            $description = "{$modelName} {$action}d";
+        }
+
         return ActivityLogData::fromArray([
             'user_id' => $userId,
             'model_id' => $model->id,
             'model_type' => get_class($model),
             'table_name' => $tableName,
             'type' => $logType->value,
+            'description' => $description,
             'data' => $data,
             'dirty_keys' => array_keys($model->getChanges()),
             'browser_name' => $agent->browser($userAgent),

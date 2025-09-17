@@ -5,4 +5,6 @@ namespace Threls\ThrelsActivityLog\Contracts;
 interface ActivityLogContract
 {
     public function getActivityLogDisplayName(): string;
+
+    public function getActivityLogDescription(): ?string;
 }
