@@ -5,6 +5,7 @@ namespace Threls\ThrelsActivityLog\Traits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Jenssegers\Agent\Agent;
+use Threls\ThrelsActivityLog\Contracts\ActivityLogContract;
 use Threls\ThrelsActivityLog\Data\ActivityLogData;
 use Threls\ThrelsActivityLog\Data\ModelLogData;
 use Threls\ThrelsActivityLog\Enums\ActivityLogTypeEnum;
@@ -29,14 +30,19 @@ trait LogsActivity
         $userAgent = request()->userAgent();
 
         $description = null;
-        if (method_exists($model, 'getActivityLogDescription')) {
-            $description = $model->getActivityLogDescription();
+        if ($model instanceof ActivityLogContract) {
+            $description = match ($logType) {
+                ActivityLogTypeEnum::CREATE => $model->getCreateActivityDescription(),
+                ActivityLogTypeEnum::UPDATE => $model->getUpdateActivityDescription(),
+                ActivityLogTypeEnum::DELETE => $model->getDeleteActivityDescription(),
+                default => null,
+            };
         }
 
         if ($description === null) {
             $modelName = class_basename($model);
-            $action = $logType->value;
-            $description = "{$modelName} {$action}d";
+            $verb = $logType->getVerb();
+            $description = "{$modelName} {$verb}";
         }
 
         return ActivityLogData::fromArray([
