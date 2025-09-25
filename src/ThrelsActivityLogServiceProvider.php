@@ -19,7 +19,7 @@ class ThrelsActivityLogServiceProvider extends PackageServiceProvider
         $package
             ->name('activity-log')
             ->hasConfigFile()
-            ->hasMigrations(['create_activity_log_table', 'update_activity_log_table'])
+            ->hasMigrations(['create_activity_log_table', 'update_activity_log_table', 'add_description_to_activity_log'])
             ->hasCommand(ThrelsDeleteActivityLogCommand::class)
             ->hasRoute('api');
     }

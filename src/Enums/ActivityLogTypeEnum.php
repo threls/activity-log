@@ -10,4 +10,14 @@ enum ActivityLogTypeEnum: string
     case RESTORE = 'restore';
     case LOGIN = 'login';
 
+    public function getVerb(): string
+    {
+        return match ($this) {
+            self::CREATE => 'created',
+            self::UPDATE => 'updated',
+            self::DELETE => 'deleted',
+            self::RESTORE => 'restored',
+            self::LOGIN => 'logged in',
+        };
+    }
 }
