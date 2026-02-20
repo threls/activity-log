@@ -29,7 +29,7 @@ class UserLoggedInEvent
             'model_type' => get_class($model),
             'table_name' => $tableName,
             'type' => ActivityLogTypeEnum::LOGIN->value,
-            'data' => new ModelLogData(oldContent: null, newContent: null),
+            'data' => new ModelLogData(old: null, new: null),
             'dirty_keys' => [],
             'browser_name' => $agent->browser($userAgent),
             'platform' => $agent->platform($userAgent),

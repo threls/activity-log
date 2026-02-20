@@ -12,10 +12,14 @@ return [
         'on_login' => true,
     ],
 
+    'log_only_dirty' => true,
+
     'user_model' => '\App\Models\User',
 
     'log_pagination' => 20,
 
     'api_route_middleware' => 'auth:sanctum',
-
+    'default_log_identifier' => 'id',
+    'causer_name_attribute' => 'name',
+    'retention_days' => 365,
 ];
