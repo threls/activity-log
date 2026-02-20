@@ -50,36 +50,114 @@ return [
         'on_login' => true,
     ],
 
+    // When true, updates will only log changed (dirty) attributes
+    'log_only_dirty' => true,
+
+    // The User model class used to resolve causer name/id
     'user_model' => '\App\Models\User',
 
+    // Which attribute on the causer to display in descriptions (e.g. name/email)
+    'causer_name_attribute' => 'name',
+
+    // Global fallback identifier used in descriptions when a model doesn't override it
+    'default_log_identifier' => 'id',
+
+    // API listing pagination size
     'log_pagination' => 20,
 
+    // Middleware used by the built-in logs API route
     'api_route_middleware' => 'auth:sanctum',
 
+    // Number of days to retain logs before pruning (default 365)
+    'retention_days' => 365,
 ];
 ```
 
 ## Usage
 
-Use trait `LogsActivity` on every model you want to log crud events.
+- Add the `LogsActivity` trait to any model you want to track.
+- Implement `ActivityLogContract` to strongly define your model's logging configuration.
+- By default, descriptions are standardized as: `"{causerName} {verb} {ModelName} '{identifier}'"`.
 
-```
-class User extends Authenticatable
+### Basic
+
+```php
+use Threls\ThrelsActivityLog\Traits\LogsActivity;
+
+class Product extends Model
 {
     use LogsActivity;
-
 }
 ```
 
-# Clear logs
+This will emit logs like: `Sabina created Product '42'` using the global `default_log_identifier`.
 
-```
- php artisan activity-log:delete
+### Per-model configuration via properties (no interface)
+
+```php
+class Product extends Model
+{
+    use LogsActivity;
+
+    public ?array $logAttributes = ['name', 'price'];
+    public ?array $ignoreAttributes = ['updated_at'];
+    public ?bool $logOnlyDirty = true; // only diffs on update
+    public ?string $logIdentifier = 'name'; // used in description
+}
 ```
 
-# Built in API to get logs list
+### Strict configuration via interface
 
+```php
+use Threls\ThrelsActivityLog\Contracts\ActivityLogContract;
+use Threls\ThrelsActivityLog\Enums\ActivityLogTypeEnum;
+
+class Product extends Model implements ActivityLogContract
+{
+    use LogsActivity;
+
+    public function getLogAttributes(): array|string|null { return ['name', 'price']; }
+    public function getIgnoreAttributes(): array|string|null { return ['updated_at']; }
+    public function getLogOnlyDirty(): ?bool { return true; }
+    public function getLogIdentifier(): ?string { return 'name'; }
+}
 ```
+
+### CLI / Queues safety
+- The package guards request-dependent values (user agent, IP). In non-HTTP contexts, defaults like `unknown` and `127.0.0.1` are used.
+
+### Maintenance
+
+#### Log Pruning (Recommended)
+This package supports Laravel's native model pruning. To keep your `activity_log` table small, you should schedule the `model:prune` command in your application's `routes/console.php` (or `app/Console/Kernel.php` for older Laravel versions):
+
+```php
+use Illuminate\Support\Facades\Schedule;
+use Threls\ThrelsActivityLog\Models\ActivityLog;
+
+Schedule::command('model:prune', [
+    '--model' => [ActivityLog::class],
+])->daily();
+```
+
+You can configure the retention period in `config/activity-log.php`:
+```php
+'retention_days' => 365, // Keep logs for 1 year
+```
+
+#### Manual Cleanup
+Alternatively, you can manually delete old logs using the provided command:
+
+```bash
+# Deletes logs older than 30 days
+php artisan activity-log:delete --older-than-days=30
+
+# Deletes logs using the 'retention_days' from config
+php artisan activity-log:delete
+```
+
+#### Built-in API to list logs
+```http
 GET /threls-activity-log/logs
 ```
 

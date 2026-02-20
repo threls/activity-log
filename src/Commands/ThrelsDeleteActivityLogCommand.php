@@ -7,20 +7,35 @@ use Threls\ThrelsActivityLog\Models\ActivityLog;
 
 class ThrelsDeleteActivityLogCommand extends Command
 {
-    public $signature = 'activity-log:delete {--older-than-months=}';
+    public $signature = 'activity-log:delete {--older-than-days=}';
 
     public $description = 'Delete activity log';
 
     public function handle(): int
     {
-        $olderThanMonths = $this->option('older-than-months');
-        ActivityLog::query()
-            ->when($olderThanMonths, function ($query) use ($olderThanMonths) {
-                $query->where('created_at', '<=', now()->subMonths((int) $olderThanMonths));
-            })
-            ->delete();
+        $olderThanDays = $this->option('older-than-days');
 
-        $this->comment('Cleared activity log table.');
+        if ($olderThanDays) {
+            $count = ActivityLog::query()
+                ->where('created_at', '<=', now()->subDays((int) $olderThanDays))
+                ->delete();
+
+            $this->info("Deleted {$count} activity log records older than {$olderThanDays} days.");
+
+            return self::SUCCESS;
+        }
+
+        $retentionDays = config('activity-log.retention_days');
+
+        if (! $retentionDays) {
+            $this->error('Please provide --older-than-days or configure retention_days.');
+
+            return self::FAILURE;
+        }
+
+        $count = (new ActivityLog)->prunable()->delete();
+
+        $this->info("Deleted {$count} activity log records using the retention period of {$retentionDays} days.");
 
         return self::SUCCESS;
     }

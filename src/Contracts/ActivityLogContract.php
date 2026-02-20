@@ -2,13 +2,15 @@
 
 namespace Threls\ThrelsActivityLog\Contracts;
 
+use Threls\ThrelsActivityLog\Enums\ActivityLogTypeEnum;
+
 interface ActivityLogContract
 {
-    public function getActivityLogDisplayName(): string;
+    public function getLogAttributes(): array|string|null;
 
-    public function getCreateActivityDescription(): ?string;
+    public function getIgnoreAttributes(): array|string|null;
 
-    public function getUpdateActivityDescription(): ?string;
+    public function getLogIdentifier(): ?string;
 
-    public function getDeleteActivityDescription(): ?string;
+    public function getActivityLogDescription(ActivityLogTypeEnum $type): ?string;
 }

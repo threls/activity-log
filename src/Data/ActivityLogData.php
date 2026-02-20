@@ -17,6 +17,7 @@ class ActivityLogData
         public readonly array $dirty_keys,
         public readonly string $browser_name,
         public readonly string $platform,
+        public readonly string $device,
         public readonly string $ip,
         public Carbon $log_date
 
@@ -24,6 +25,11 @@ class ActivityLogData
 
     public static function fromArray(array $attributes): self
     {
+        $data = $attributes['data'];
+        if (is_array($data) && (isset($data['old']) || isset($data['new']))) {
+            $data = new ModelLogData($data['old'] ?? null, $data['new'] ?? null);
+        }
+
         return new self(
             $attributes['user_id'],
             $attributes['model_id'],
@@ -31,10 +37,11 @@ class ActivityLogData
             $attributes['table_name'],
             $attributes['type'],
             $attributes['description'] ?? null,
-            $attributes['data'],
+            $data,
             $attributes['dirty_keys'],
             $attributes['browser_name'],
             $attributes['platform'],
+            $attributes['device'] ?? 'unknown',
             $attributes['ip'],
             Carbon::parse($attributes['log_date']),
         );
@@ -49,10 +56,14 @@ class ActivityLogData
             'table_name' => $this->table_name,
             'type' => $this->type,
             'description' => $this->description,
-            'data' => $this->data,
+            'data' => [
+                'old' => $this->data->old,
+                'new' => $this->data->new,
+            ],
             'dirty_keys' => $this->dirty_keys,
             'browser_name' => $this->browser_name,
             'platform' => $this->platform,
+            'device' => $this->device,
             'ip' => $this->ip,
             'log_date' => $this->log_date->toDateTimeString(),
         ];
