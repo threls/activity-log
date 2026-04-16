@@ -15,11 +15,12 @@ class ActivityLog extends Model
 
     protected $table = 'activity_log';
 
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     protected $casts = [
         'data' => 'array',
         'dirty_keys' => 'array',
+        'relations' => 'array',
     ];
 
     public function user(): BelongsTo
