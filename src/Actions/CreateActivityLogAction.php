@@ -9,6 +9,8 @@ class CreateActivityLogAction
 {
     public function execute(ActivityLogData $activityLogData): ActivityLog
     {
-        return ActivityLog::create($activityLogData->toArray());
+        $data = $activityLogData->toArray();
+
+        return ActivityLog::create($data);
     }
 }

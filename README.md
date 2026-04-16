@@ -120,6 +120,44 @@ class Product extends Model implements ActivityLogContract
     public function getIgnoreAttributes(): array|string|null { return ['updated_at']; }
     public function getLogOnlyDirty(): ?bool { return true; }
     public function getLogIdentifier(): ?string { return 'name'; }
+    public function getActivityLogDescription(ActivityLogTypeEnum $type): ?string { return null; }
+    public function getLogParent(): ?Model { return null; }
+}
+```
+
+### Aggregated Logging
+
+You can group multiple logical actions into a single log entry using `ThrelsActivityLog::aggregate()`. This is useful for relationship trees (e.g., creating a Survey with its Sections and Questions).
+
+To support this, define the hierarchy in your models by implementing `getLogParent()` from the `ActivityLogContract`.
+
+```php
+use Threls\ThrelsActivityLog\Facades\ThrelsActivityLog;
+
+ThrelsActivityLog::aggregate(function () {
+    $survey = Survey::create(['title' => 'Customer Feedback']);
+    $survey->sections()->create(['title' => 'Service Quality']);
+});
+```
+
+The resulting log will be associated with the root model (`Survey`) and contain all nested changes in a `relations` JSON column.
+
+#### Defining Hierarchy
+
+```php
+class SurveySection extends Model implements ActivityLogContract
+{
+    use LogsActivity;
+
+    public function survey() {
+        return $this->belongsTo(Survey::class);
+    }
+
+    public function getLogParent(): ?Model {
+        return $this->survey;
+    }
+
+    // ... other interface methods
 }
 ```
 

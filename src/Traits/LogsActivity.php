@@ -333,7 +333,12 @@ trait LogsActivity
         $logObject = self::createLogObject($model, $oldData, $type);
 
         if ($logObject !== null) {
-            event(new $eventClass($logObject, $model));
+            $manager = app(\Threls\ThrelsActivityLog\ActivityLogManager::class);
+            if ($manager->isAggregating()) {
+                $manager->addLog($logObject, $model);
+            } else {
+                event(new $eventClass($logObject, $model));
+            }
         }
     }
 

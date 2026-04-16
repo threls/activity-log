@@ -55,6 +55,11 @@ class TestModel extends Model implements ActivityLogContract
     {
         return $this->customDescriptionText;
     }
+
+    public function getLogParent(): ?Model
+    {
+        return null;
+    }
 }
 
 class LoggingTest extends TestCase

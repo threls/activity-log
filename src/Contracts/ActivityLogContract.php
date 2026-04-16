@@ -2,6 +2,7 @@
 
 namespace Threls\ThrelsActivityLog\Contracts;
 
+use Illuminate\Database\Eloquent\Model;
 use Threls\ThrelsActivityLog\Enums\ActivityLogTypeEnum;
 
 interface ActivityLogContract
@@ -13,4 +14,6 @@ interface ActivityLogContract
     public function getLogIdentifier(): ?string;
 
     public function getActivityLogDescription(ActivityLogTypeEnum $type): ?string;
+
+    public function getLogParent(): ?Model;
 }
