@@ -17,44 +17,123 @@ use Threls\ThrelsActivityLog\Traits\LogsActivity;
 class Survey extends Model implements ActivityLogContract
 {
     use LogsActivity;
+
     protected $table = 'surveys';
+
     protected $guarded = [];
 
-    public function sections(): HasMany { return $this->hasMany(Section::class); }
-    public function getLogAttributes(): array|string|null { return ['title']; }
-    public function getIgnoreAttributes(): array|string|null { return null; }
-    public function getLogIdentifier(): ?string { return 'title'; }
-    public function getActivityLogDescription(ActivityLogTypeEnum $type): ?string { return null; }
-    public function getLogParent(): ?Model { return null; }
+    public function sections(): HasMany
+    {
+        return $this->hasMany(Section::class);
+    }
+
+    public function getLogAttributes(): array|string|null
+    {
+        return ['title'];
+    }
+
+    public function getIgnoreAttributes(): array|string|null
+    {
+        return null;
+    }
+
+    public function getLogIdentifier(): ?string
+    {
+        return 'title';
+    }
+
+    public function getActivityLogDescription(ActivityLogTypeEnum $type): ?string
+    {
+        return null;
+    }
+
+    public function getLogParent(): ?Model
+    {
+        return null;
+    }
 }
 
 class Section extends Model implements ActivityLogContract
 {
     use LogsActivity;
+
     protected $table = 'sections';
+
     protected $guarded = [];
 
-    public function survey(): BelongsTo { return $this->belongsTo(Survey::class); }
-    public function questions(): HasMany { return $this->hasMany(Question::class); }
-    public function getLogAttributes(): array|string|null { return ['title']; }
-    public function getIgnoreAttributes(): array|string|null { return null; }
-    public function getLogIdentifier(): ?string { return 'title'; }
-    public function getActivityLogDescription(ActivityLogTypeEnum $type): ?string { return null; }
-    public function getLogParent(): ?Model { return $this->survey; }
+    public function survey(): BelongsTo
+    {
+        return $this->belongsTo(Survey::class);
+    }
+
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Question::class);
+    }
+
+    public function getLogAttributes(): array|string|null
+    {
+        return ['title'];
+    }
+
+    public function getIgnoreAttributes(): array|string|null
+    {
+        return null;
+    }
+
+    public function getLogIdentifier(): ?string
+    {
+        return 'title';
+    }
+
+    public function getActivityLogDescription(ActivityLogTypeEnum $type): ?string
+    {
+        return null;
+    }
+
+    public function getLogParent(): ?Model
+    {
+        return $this->survey;
+    }
 }
 
 class Question extends Model implements ActivityLogContract
 {
     use LogsActivity;
+
     protected $table = 'questions';
+
     protected $guarded = [];
 
-    public function section(): BelongsTo { return $this->belongsTo(Section::class); }
-    public function getLogAttributes(): array|string|null { return ['content']; }
-    public function getIgnoreAttributes(): array|string|null { return null; }
-    public function getLogIdentifier(): ?string { return 'content'; }
-    public function getActivityLogDescription(ActivityLogTypeEnum $type): ?string { return null; }
-    public function getLogParent(): ?Model { return $this->section; }
+    public function section(): BelongsTo
+    {
+        return $this->belongsTo(Section::class);
+    }
+
+    public function getLogAttributes(): array|string|null
+    {
+        return ['content'];
+    }
+
+    public function getIgnoreAttributes(): array|string|null
+    {
+        return null;
+    }
+
+    public function getLogIdentifier(): ?string
+    {
+        return 'content';
+    }
+
+    public function getActivityLogDescription(ActivityLogTypeEnum $type): ?string
+    {
+        return null;
+    }
+
+    public function getLogParent(): ?Model
+    {
+        return $this->section;
+    }
 }
 
 class AggregatedLoggingTest extends TestCase

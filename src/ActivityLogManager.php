@@ -80,7 +80,7 @@ class ActivityLogManager
     }
 
     /**
-     * @param array<int, array{data: ActivityLogData, model: Model}> $childLogs
+     * @param  array<int, array{data: ActivityLogData, model: Model}>  $childLogs
      */
     protected function attachChildren(ActivityLogData $parentData, Model $parentModel, array &$childLogs): void
     {
