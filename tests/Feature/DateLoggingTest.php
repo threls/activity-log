@@ -2,6 +2,7 @@
 
 namespace Threls\ThrelsActivityLog\Tests\Feature;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -41,7 +42,7 @@ class DateLoggingTest extends TestCase
         $this->assertEquals(0, ActivityLog::count(), 'Activity log was created even though date was not changed');
 
         // Force an update with the same date but in a different format/type if possible
-        $model->onboarding_date = \Carbon\Carbon::parse('2026-02-28')->startOfDay();
+        $model->onboarding_date = Carbon::parse('2026-02-28')->startOfDay();
         $model->save();
 
         $this->assertEquals(0, ActivityLog::count(), 'Activity log was created even though date was same but different type');
@@ -62,7 +63,7 @@ class DateLoggingTest extends TestCase
         $this->assertEquals(0, ActivityLog::count(), 'Activity log was created even though datetime was not changed');
 
         // Force update with Carbon object
-        $model->onboarding_datetime = \Carbon\Carbon::parse('2026-02-27 23:00:00');
+        $model->onboarding_datetime = Carbon::parse('2026-02-27 23:00:00');
         $model->save();
 
         $this->assertEquals(0, ActivityLog::count(), 'Activity log was created even though datetime was same but Carbon object');
