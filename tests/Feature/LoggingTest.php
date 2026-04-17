@@ -4,7 +4,6 @@ namespace Threls\ThrelsActivityLog\Tests\Feature;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Threls\ThrelsActivityLog\Contracts\ActivityLogContract;
 use Threls\ThrelsActivityLog\Enums\ActivityLogTypeEnum;
@@ -55,11 +54,6 @@ class TestModel extends Model implements ActivityLogContract
     public function getActivityLogDescription(ActivityLogTypeEnum $logType): ?string
     {
         return $this->customDescriptionText;
-    }
-
-    public function getLogParent(): ?Model
-    {
-        return null;
     }
 }
 
@@ -178,7 +172,7 @@ class LoggingTest extends TestCase
 
     public function test_it_builds_description_with_default_identifier()
     {
-        $user = DB::table('users')->insertGetId([
+        $user = \Illuminate\Support\Facades\DB::table('users')->insertGetId([
             'name' => 'Sabina',
             'email' => 'sabina@example.com',
             'created_at' => now(),
@@ -193,7 +187,7 @@ class LoggingTest extends TestCase
 
     public function test_it_respects_log_identifier_on_model()
     {
-        $user = DB::table('users')->insertGetId([
+        $user = \Illuminate\Support\Facades\DB::table('users')->insertGetId([
             'name' => 'Sabina',
             'email' => 'sabina@example.com',
             'created_at' => now(),

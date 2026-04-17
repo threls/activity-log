@@ -7,20 +7,19 @@ use Carbon\Carbon;
 class ActivityLogData
 {
     public function __construct(
-        public ?string $user_id,
-        public ?string $model_id,
-        public ?string $model_type,
-        public string $table_name,
-        public string $type,
-        public ?string $description,
-        public ModelLogData $data,
-        public array $dirty_keys,
-        public string $browser_name,
-        public string $platform,
-        public string $device,
-        public string $ip,
-        public Carbon $log_date,
-        public array $relations = []
+        public readonly ?string $user_id,
+        public readonly ?string $model_id,
+        public readonly ?string $model_type,
+        public readonly string $table_name,
+        public readonly string $type,
+        public readonly ?string $description,
+        public readonly ModelLogData $data,
+        public readonly array $dirty_keys,
+        public readonly string $browser_name,
+        public readonly string $platform,
+        public readonly string $device,
+        public readonly string $ip,
+        public Carbon $log_date
 
     ) {}
 
@@ -45,7 +44,6 @@ class ActivityLogData
             $attributes['device'] ?? 'unknown',
             $attributes['ip'],
             Carbon::parse($attributes['log_date']),
-            $attributes['relations'] ?? [],
         );
     }
 
@@ -68,7 +66,6 @@ class ActivityLogData
             'device' => $this->device,
             'ip' => $this->ip,
             'log_date' => $this->log_date->toDateTimeString(),
-            'relations' => $this->relations,
         ];
     }
 }
