@@ -42,8 +42,6 @@ class TestCase extends Orchestra
             include __DIR__.'/../database/migrations/2025_02_11_164955_create_activity_log_table.php',
             include __DIR__.'/../database/migrations/2025_03_13_142844_update_activity_log.php',
             include __DIR__.'/../database/migrations/2025_03_17_000001_add_description_to_activity_log.php',
-            include __DIR__.'/../database/migrations/2025_03_20_000000_add_log_date_to_activity_log.php',
-            include __DIR__.'/../database/migrations/2025_03_20_000001_add_relations_to_activity_log.php',
         ];
 
         foreach ($migrations as $migration) {

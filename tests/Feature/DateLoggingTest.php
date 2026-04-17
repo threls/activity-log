@@ -150,9 +150,4 @@ class DateTestModel extends Model implements ActivityLogContract
     {
         return null;
     }
-
-    public function getLogParent(): ?Model
-    {
-        return null;
-    }
 }

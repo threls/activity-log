@@ -8,7 +8,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Jenssegers\Agent\Agent;
-use Threls\ThrelsActivityLog\ActivityLogManager;
 use Threls\ThrelsActivityLog\Contracts\ActivityLogContract;
 use Threls\ThrelsActivityLog\Data\ActivityLogData;
 use Threls\ThrelsActivityLog\Data\ModelLogData;
@@ -334,12 +333,7 @@ trait LogsActivity
         $logObject = self::createLogObject($model, $oldData, $type);
 
         if ($logObject !== null) {
-            $manager = app(ActivityLogManager::class);
-            if ($manager->isAggregating()) {
-                $manager->addLog($logObject, $model);
-            } else {
-                event(new $eventClass($logObject, $model));
-            }
+            event(new $eventClass($logObject, $model));
         }
     }
 
